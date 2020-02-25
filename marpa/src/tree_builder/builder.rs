@@ -6,7 +6,7 @@ use crate::tree_builder::tree::Handle;
 use crate::tree_builder::tree::Node;
 use std::collections::HashSet;
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct TreeBuilder {
     token_rules: HashSet<Rule>,
     discard_rules: HashSet<Rule>,
@@ -101,7 +101,7 @@ fn rollup_rule_rec(handles: &[Handle<ByteToken>], out: &mut Vec<Handle<ByteToken
             Node::Rule(_, _) => out.push(child.clone()),
             Node::Null(_) => {}
             Node::Tree(_, ref chs) => rollup_rule_rec(chs, out),
-            Node::Leaf(_) => panic!("cannot rollup Leaf into Rule - this is an internal bug."),
+            Node::Leaf(_) => {} //panic!("cannot rollup Leaf into Rule - this is an internal bug."),
         }
     }
 }
